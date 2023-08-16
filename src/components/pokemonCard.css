@@ -1,0 +1,30 @@
+.pokemon-card {
+    display: inline-block; /* Display the cards inline */
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px;
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .pokemon-list
+  {
+    text-align: center;
+  }
+  .buttonPoke button{
+    background-color: orangered;
+    color: white;
+    height: 50px;
+    border-radius: 50px;
+}
+  
+  .pokemon-card img {
+    width: 150px;
+    height: 150px;
+  }
+  
+  .pokemon-card p {
+    margin: 5px 0;
+  }
+  

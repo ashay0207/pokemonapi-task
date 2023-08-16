@@ -1,25 +1,57 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React, { useState, useEffect } from 'react';
+import { fetchPokemonList, fetchPokemonDetails } from './Api'; // Make sure the correct path is used
+import PokemonCard from './components/PokemonCard';
+import PokemonDetails from './components/PokemonDetails';
+import './App.css'
 
-function App() {
+
+const App = () => {
+  const [ pokemonList, setPokemonList] = useState([]);
+  const [selectedPokemon, setSelectedPokemon] = useState();
+
+
+  useEffect(() => {
+    async function fetchData() {
+      const list = await fetchPokemonList();
+      setPokemonList(list);
+    }
+    fetchData();
+  });
+
+  const handleCardClick = (pokemonName) => {
+    fetchPokemonDetails(pokemonName)
+      .then((details) => {
+        setSelectedPokemon(details);
+      })
+
+  };
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Pokemon List</h1>
+      <div className="pokemon-list">
+        {selectedPokemon ? (
+          <div className='buttonPoke'>
+            <button onClick={() => setSelectedPokemon()}>Back to List</button>
+            <PokemonDetails details={selectedPokemon} />
+          </div>
+        ) : (
+          pokemonList.map((pokemon) => (
+            <PokemonCard
+              key={pokemon.name}
+              pokemon={{
+                name: pokemon.name,
+                imageURL: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.url.split('/')[6]}.png`
+              }}
+              onCardClick={() => handleCardClick(pokemon.name)}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
-}
+};
 
 export default App;
